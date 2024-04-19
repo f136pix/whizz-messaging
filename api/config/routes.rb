@@ -7,10 +7,9 @@
 # end
 
 Rails.application.routes.draw do
+  resources :users
   get '/current_user', to: 'current_user#index'
-  get 'private/test'
-  # requests to : /users 
-  devise_for :users, path: '', path_names: {
+  devise_for :users, path: '', path_names: { # overriding default devise paths 
     sign_in: 'login',
     sign_out: 'logout',
     registration: 'signup'

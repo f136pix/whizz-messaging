@@ -15,7 +15,11 @@ class Users::SessionsController < Devise::SessionsController
 
   # DELETE /logout
   def destroy
-    super
+    if !current_user
+      log_out_failure
+    else
+      super
+    end
   end
 
   # protected
@@ -45,13 +49,11 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def respond_to_on_destroy
-    log_out_success && return if current_user
-
-    log_out_failure
+    log_out_success
   end
 
   def log_out_success
-    render json: { message: 'You are logged out.' }, status: :ok
+  render json: { message: 'User logged out.' }, status: :ok
   end
 
   def log_out_failure

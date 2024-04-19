@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  # before_action :configure_sign_up_params, only: [:create]
+  # permitindo parametro role na cricao de usuario
+  before_action :configure_sign_up_params, only: [:create]
+
+  def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:role])
+  end
+
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
@@ -11,6 +17,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
+    role_param = sign_up_params[:role] # checa se o role é permitido (0 ou 1)
+    unless User.roles.values.include?(role_param)
+      render json: { error: 'Invalid role provided' }, status: :unprocessable_entity
+      return
+    end
     super
   end
 
