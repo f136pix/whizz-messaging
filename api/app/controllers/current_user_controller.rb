@@ -9,4 +9,12 @@ class CurrentUserController < ApplicationController
     end
   end
 
+  def check
+    if current_user
+      head :ok
+    else
+      head :unauthorized
+    end
+  end
+
 end

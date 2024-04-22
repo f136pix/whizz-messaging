@@ -1,5 +1,5 @@
 <template>
-  <v-container class="bg-blue-accent-1 w-100 d-flex">
+  <v-container fluid class="bg-blue-accent-1 d-flex">
     <v-btn class="mx-auto my-auto" @click="handleLogin">login</v-btn>
     <v-btn class="mx-auto my-auto" @click="handleLogout">logout</v-btn>
     <v-btn class="mx-auto my-auto" @click="handleRegister">register</v-btn>
@@ -12,7 +12,7 @@ import AuthService from '../services/auth.service';
 
 const handleLogin = () => {
   const user = {
-    email: 'testefilipe@gmail.com',
+    email: 'testefilip@gmail.com',
     password: '123456'
 
   };
