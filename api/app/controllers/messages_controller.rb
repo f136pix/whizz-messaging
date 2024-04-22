@@ -3,7 +3,16 @@ class MessagesController < ApplicationController
 
   # GET /messages
   def index
-    @messages = Message.all
+    if params[:nextHour] == 'true'
+      #now = puts Time.parse(3.hours.ago.utc)
+      #      MyModel.where("created_at < ?", 2.days.ago)
+      
+      @messages = Message.where('"scheduleDate" < ?', 2.hours.ago.utc).order(:scheduleDate)
+      #puts Time.parse(@messages.first.scheduleDate.to_s) < Time.parse(3.hours.ago.utc.to_s)
+      return render json: @messages
+
+    end
+    @messages = Message.all.order(:scheduleDate)
     render json: @messages
   end
 
