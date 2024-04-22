@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_04_18_232717) do
+ActiveRecord::Schema.define(version: 2024_04_21_212221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(version: 2024_04_18_232717) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["jti"], name: "index_jwt_denylist_on_jti"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "textMsg", limit: 200, null: false
+    t.datetime "createDate", null: false
+    t.datetime "scheduleDate", null: false
+    t.string "whatsappNumber", null: false
   end
 
   create_table "users", force: :cascade do |t|

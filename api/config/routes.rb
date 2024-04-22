@@ -8,7 +8,9 @@
 
 Rails.application.routes.draw do
   resources :users
+  resources :messages
   get '/current_user', to: 'current_user#index'
+  get '/current_user/check', to: 'current_user#check'
   devise_for :users, path: '', path_names: { # overriding default devise paths 
     sign_in: 'login',
     sign_out: 'logout',

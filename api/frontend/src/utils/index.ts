@@ -15,3 +15,9 @@ export const resFormatter = (data: any) => {
     return res;
   }
 };
+
+export const checkStatus = (response, errMsg) => {
+  if (![200, 204, 201].includes(response.status)) {
+    throw new Error(`${errMsg}`);
+  }
+};

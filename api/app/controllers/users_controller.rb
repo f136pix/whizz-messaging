@@ -5,6 +5,11 @@ class UsersController < ApplicationController
   def index
     page = params[:page].presence&.to_i || 1
     per_page = params[:per_page].presence&.to_i || 10
+    
+    if params[:raw]
+      render json: User.all
+      return
+    end
 
     if params[:email]
       @users = User.where('email LIKE ?', "%#{params[:email]}%")
@@ -12,7 +17,14 @@ class UsersController < ApplicationController
       @users = User.all
     end
 
-    @users = @users.offset((page - 1) * per_page).limit(per_page)
+    if params[:sort] == nil
+      @users = @users.offset((page - 1) * per_page).limit(per_page)
+    end
+
+    if params[:sort] == "email"
+      @users = @users.order(email: :asc).offset((page - 1) * per_page).limit(per_page)
+    end
+    
     render json: @users
   end
 

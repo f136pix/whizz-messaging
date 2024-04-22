@@ -1,21 +1,18 @@
 import {checkStatus} from "../utils";
+import axios from "axios";
 
-import axios from 'axios';
+const API_URL = 'http://localhost:3000/messages';
 
-const API_URL = 'http://localhost:3000/users';
-
-class UserService {
+class MessageService {
   private checkStatus = checkStatus;
 
-  async getAllUsers(raw = false, page = 1, email = "", sort = null,) {
+  async getAllMessages() {
     try {
-      const response = await axios.get(API_URL, {
-        params: {page, email, sort},
-      });
-      this.checkStatus(response, "Nenhum user foi encontrado");
+      const response = await axios.get(API_URL);
+      this.checkStatus(response, "Nenhuma mensagem foi encontrada");
       return response.data;
     } catch (error) {
-      throw new Error(`Erro ao carregar os users: ${error.message}`);
+      throw new Error(`Erro ao carregar as mensagens: ${error.message}`);
     }
   }
 
@@ -23,20 +20,21 @@ class UserService {
     try {
       const response = await axios.get(`${API_URL}/${id}`);
       console.log(response);
-      this.checkStatus(response, "User não encontrado");
+      this.checkStatus(response, "Mensagem não encontrada");
       return response.data;
     } catch (error) {
-      throw new Error(`Failed to fetch user: ${error.message}`);
+      throw new Error(`Erro ao carregar mensagem: ${error.message}`);
     }
   }
 
-  async createUser(user) {
+  async createMessage(message) {
     try {
-      const response = await axios.post(API_URL, user);
-      this.checkStatus(response, "Falha ao criar user");
+      const response = await axios.post(API_URL, message);
+      this.checkStatus(response, "Falha ao criar mensagem");
       return response.data;
     } catch (error) {
-      throw new Error(`Failed to create user: ${error.message}`);
+      console.log(error);
+      throw new Error(`Failed to create message: ${error.message}`);
     }
   }
 
@@ -61,8 +59,6 @@ class UserService {
       throw new Error(`Failed to delete user: ${error.message}`);
     }
   }
-
-
 }
 
-export default new UserService();
+export default new MessageService;

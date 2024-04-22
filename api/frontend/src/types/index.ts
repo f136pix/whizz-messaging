@@ -13,3 +13,11 @@ export type IUserRegisterDto = {
   password: string;
   role: number;
 }
+
+export type IUser = {
+  id: number;
+  email: string;
+  role: number;
+  created_at: string;
+  updated_at: string;
+}
