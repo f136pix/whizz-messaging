@@ -3,10 +3,10 @@
     <MainHeader/>
     <v-container>
       <div class="flex-container justify-end">
-        <router-link to="/users/create">
-        <v-btn v-if="user.role === 'admin'" density="compact" icon="mdi-plus" class="mr-lg-16 bg-green"></v-btn>
+        <router-link to="/messages/create">
+          <v-btn v-if="user.role === 'admin'" density="compact" icon="mdi-plus" class="mr-lg-16 bg-green"></v-btn>
         </router-link>
-    </div>
+      </div>
       <v-card
         class="mx-auto"
         max-width="800"
@@ -16,22 +16,23 @@
           :items="items"
           class="elevation-1"
         >
-          <template v-slot:item.email="{ item }">
-            <a class="font-italic" :class="{ 'text-decoration-underline bg-grey-darken-3': item.email === user.email }">{{
-                item.email
+          <template v-slot:item.whatsappNumber="{ item }">
+            <a class="font-italic">{{
+                `+${item.whatsappNumber}`
               }}</a>
           </template>
-          <template v-slot:item.role="{ item }">
-            <a class="font-italic">{{ item.role.charAt(0).toUpperCase() + item.role.slice(1) }}</a>
+          <template v-slot:item.scheduleDate="{ item }">
+            <a class="font-italic">{{
+                `${formatScheduleTime(item.scheduleDate)}`
+              }}</a>
           </template>
-          <template v-slot:item.created_at="{ item }">
-            {{ new Date(item.created_at).toLocaleDateString('pt-BR') }}
+          <template v-slot:item.textMsg="{ item }">
+            <a class="font-italic">{{
+                item.textMsg.length > 15 ? item.textMsg.substring(0, 15) + '...' : item.textMsg
+              }}</a>
           </template>
-          <template v-slot:item.actions="{ item }"  v-if="user.role === 'admin'">
-            <v-btn color="" text @click="navigateToUser(item.id)" variant="flat">
-              <font-awesome-icon icon="cog" class="text-grey-darken-2"/>
-            </v-btn>
-            <v-btn color="" text @click="deleteUser(item.id)" class="ml-4" variant="flat">
+          <template v-slot:item.actions="{ item }">
+            <v-btn color="" text @click="deleteMessage(item.id)" class="ml-4" variant="flat">
               <font-awesome-icon icon="trash" class="text-red"/>
             </v-btn>
           </template>
@@ -58,7 +59,7 @@
 </template>
 
 <script>
-import UserService from "../../services/user.service";
+import MessageService from "../../services/message.service";
 
 export default {
 
@@ -70,45 +71,42 @@ export default {
       errorMessage: '',
       headers: [
 
-        {title: "User", value: 'email', sortable: true},
-        {title: "Role", value: 'role'},
-        {title: "Created At", value: 'created_at', sortable: true},
+        {title: "Numero", value: 'whatsappNumber', sortable: true},
+        {title: "Data de Envio", value: 'scheduleDate', sortable: false},
+        {title: "Mensagem", value: 'textMsg'},
         {title: "", value: 'actions'}
       ],
     };
   },
   methods: {
-    async fetchUsers(raw, page, email, sort) {
+    formatScheduleTime,
+
+    async fetchMessage() {
       try {
-        const users = await UserService.getAllUsers(raw, page, email, sort);
-        this.items = users;
-        if (users.length === 0) {
-          throw new Error('Nenhum user foi encontrado');
+        const messages = await MessageService.getAllMessages();
+        this.items = messages;
+        if (messages.length === 0) {
+          throw new Error('Nenhuma mensagem foi encontrada');
         }
       } catch (error) {
-        this.errorMessage = `Nenhum user foi encontrado`;
+        this.errorMessage = `Nenhuma mensagem foi encontrada`;
         this.errorSnackbar = true;
       }
     },
-    async deleteUser(id) {
+    async deleteMessage(id) {
       try {
-        if (id == this.user.id) {
-          this.errorMessage = `Você não pode deletar seu próprio user`;
-          this.errorSnackbar = true;
-          return;
-        }
-        await UserService.deleteUser(id);
-        this.fetchUsers(true, "", "", "");
-        this.successMessage = `User deletado com sucesso`;
+        await MessageService.deleteMessage(id);
+        this.fetchMessage();
+        this.successMessage = `Mensagem deletado com sucesso`;
         this.successSnackbar = true;
       } catch (error) {
-        this.errorMessage = `Erro ao deletar o user`;
+        this.errorMessage = `Erro ao deletar a mensagem`;
         this.errorSnackbar = true;
       }
     },
   },
   async created() {
-    this.fetchUsers(true, "", "", "");
+    this.fetchMessage();
   },
 
   setup() {
@@ -133,6 +131,7 @@ import {faCog, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {ref, watchEffect} from "vue";
 import {useRouter} from "vue-router";
 import {useStore} from "vuex";
+import {formatScheduleTime} from "../../utils";
 
 library.add(faTrash, faCog);
 </script>

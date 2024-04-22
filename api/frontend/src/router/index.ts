@@ -24,6 +24,7 @@ function requireAuth(to, from, next) {
       path: '/auth/login?redirect=true',
     });
   } else {
+    store.dispatch("messages/retrieve"); // atualiza mensagens no store
     next();
   }
 }

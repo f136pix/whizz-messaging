@@ -6,9 +6,13 @@ const API_URL = 'http://localhost:3000/messages';
 class MessageService {
   private checkStatus = checkStatus;
 
-  async getAllMessages() {
+  async getAllMessages(nextHour = false) {
     try {
-      const response = await axios.get(API_URL);
+      const response = await axios.get(API_URL, {
+        params: {
+          nextHour: nextHour
+        }
+      });
       this.checkStatus(response, "Nenhuma mensagem foi encontrada");
       return response.data;
     } catch (error) {
@@ -33,8 +37,11 @@ class MessageService {
       this.checkStatus(response, "Falha ao criar mensagem");
       return response.data;
     } catch (error) {
-      console.log(error);
-      throw new Error(`Failed to create message: ${error.message}`);
+      console.log(error)
+      if (error.response.data.errors) {
+        throw new Error(`${error.response.data.errors[0]}`);
+      }
+      throw new Error(`Erro ao criar mensagem: ${error.message}`);
     }
   }
 
@@ -51,7 +58,7 @@ class MessageService {
     }
   }
 
-  async deleteUser(id) {
+  async deleteMessage(id) {
     try {
       const response = await axios.delete(`${API_URL}/${id}`);
       this.checkStatus(response, "Falha ao deletar user");

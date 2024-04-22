@@ -30,14 +30,18 @@
           </div>
           <v-row class="mt-6">
             <v-col cols="12">
-              <v-btn class="w-100">
-                Vizualizar suas mensagens
-              </v-btn>
+              <router-link to="/messages">
+                <v-btn class="w-100">
+                  Vizualizar suas mensagens
+                </v-btn>
+              </router-link>
             </v-col>
             <v-col cols="12">
-              <v-btn class="bg-purple-darken-4 w-100">
-                Criar uma nova mensagem
-              </v-btn>
+              <router-link to="/messages/create">
+                <v-btn class="bg-purple-darken-4 w-100">
+                  Criar uma nova mensagem
+                </v-btn>
+              </router-link>
             </v-col>
           </v-row>
         </v-container>

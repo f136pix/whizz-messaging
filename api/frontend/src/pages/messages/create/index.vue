@@ -84,6 +84,7 @@ import {useRouter} from "vue-router";
 import * as yup from "yup";
 
 import MessageService from "@/services/message.service";
+
 const route = useRouter();
 const today = new Date();
 const formattedToday = `${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}`;
@@ -102,7 +103,6 @@ export default {
         const formattedValue = value.replace(/-/g, '');
         return formattedValue >= formattedToday;
       }),
-      scheduleDateTime: yup.string().required("Hora de envio não pode ser vazia!")
     });
     return {
       loading: false,
@@ -119,13 +119,14 @@ export default {
       //   "scheduleDateTime": "13:25"
       // }
       const scheduleDate = new Date(message.scheduleDateDay);
-      const formattedSheduleDate = `${scheduleDate.getFullYear()}${String(scheduleDate.getMonth() + 1).padStart(2, '0')}${String(scheduleDate.getDate()).padStart(2, '0')}`;
+      const formattedSheduleDate = `${scheduleDate.getFullYear()}${String(scheduleDate.getMonth() + 1).padStart(2, '0')}${String(scheduleDate.getDate() + 1).padStart(2, '0')}`;
       const formattedScheduledTime = message.scheduleDateTime.replace(/:/g, '') + "00";
       const formattedScheduledDateTime = `${formattedSheduleDate}${formattedScheduledTime}`;
 
       const now = new Date();
       const formattedNow = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(now.getSeconds()).padStart(2, '0')}`;
 
+      console.log(formattedScheduledDateTime);
       const messageToSend = {
         textMsg: message.textMsg,
         whatsappNumber: "55" + message.whatsappNumber,
@@ -136,13 +137,12 @@ export default {
 
       try {
         const response = await MessageService.createMessage(messageToSend);
-        this.$router.push("/home");
+        this.$router.push("/messages");
       } catch (error) {
-        console.log(error);
-        this.loading = false;
         this.message = error.message || error.toString();
+        this.loading = false;
       }
-    },
+    }
   },
 };
 </script>
