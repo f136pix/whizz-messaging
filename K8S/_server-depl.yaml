@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rails-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rails-backend
+  template:
+    metadata:
+      labels:
+        app: rails-backend
+    spec:
+      containers:
+        - name: rails-backend
+          image: f136pix/messaging-server
+          env:
+            - name: DATABASE_USERNAME
+              value: admin
+            - name: DATABASE_PASSWORD
+              value: paS5w0rD!
+            - name: DATABASE_HOST
+              value: pgsql-clutsterip-srv
+            - name: DATABASE_PORT
+              value: "5432"
