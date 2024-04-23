@@ -18,7 +18,7 @@
         >
           <template v-slot:item.whatsappNumber="{ item }">
             <a class="font-italic">{{
-                `+${item.whatsappNumber}`
+                `+${item.whatsappNumber.slice(0, 2)} ${item.whatsappNumber.slice(2, 4)} ${item.whatsappNumber.slice(4)}`
               }}</a>
           </template>
           <template v-slot:item.scheduleDate="{ item }">

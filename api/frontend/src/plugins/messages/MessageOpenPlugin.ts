@@ -4,8 +4,6 @@ import {generateWhatsAppLink} from "../../utils";
 export default {
   install(Vue) {
     setInterval(async function () {
-      console.log("nova iteração");
-      // abrindo a proxima mensagem de minuto em minuto
       let msgs = store.state.messages.messages;
       if (msgs.length === 0) return;
       // ve se é apos agora

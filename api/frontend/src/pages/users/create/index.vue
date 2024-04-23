@@ -86,7 +86,7 @@ export default {
       loading: false,
       message: "",
       schema,
-      roles: [{title: "Admin", value: 1}, {title: "User", "value": 0}],
+      roles: [{title: "Admin", "value": 1}, {title: "User", "value": 0}],
     };
   },
   methods: {

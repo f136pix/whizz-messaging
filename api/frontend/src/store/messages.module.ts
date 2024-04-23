@@ -28,6 +28,9 @@ export const messages = {
           return Promise.reject(error);
         }
       );
+    },
+    cleanUp({commit}) {
+      commit('cleanupSuccess');
     }
   },
   mutations: {
@@ -40,11 +43,15 @@ export const messages = {
     deleteSuccess(state, id) {
       // retira a mensagem deletada do array de mensagens
       state.messages = state.messages.filter(message => message.id !== id);
-      console.log("--->",state.messages)
+      console.log("--->", state.messages)
       console.log("Mensagem deletada");
-      },
+    },
     deleteFailure(state) {
       console.log("Erro ao deletar mensagem");
+    },
+    cleanupSuccess(state) {
+      state.messages = [];
+      console.log("Mensagens limpas");
     }
   }
 };

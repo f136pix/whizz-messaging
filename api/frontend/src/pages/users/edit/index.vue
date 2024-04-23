@@ -57,7 +57,7 @@ export default {
 
     return {
       user: {
-        email: this.user?.email || 'test',
+        email: this.user?.email || '',
         password: '',
       },
       roles: [{title: "Admin", value: "admin"}, {title: "User", "value": "common"}],

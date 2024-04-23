@@ -22,9 +22,10 @@ export const auth = {
         }
       );
     },
-    logout({commit}) {
+    logout({commit, dispatch}) {
       AuthService.logout();
       commit('logout');
+      dispatch('messages/cleanUp', null, { root: true });
     },
     register({commit}, user) {
       return AuthService.register(user).then(

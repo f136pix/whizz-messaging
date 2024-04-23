@@ -1,0 +1,16 @@
+# node-port
+# exposes our pgsql db in local port 30007
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgsql-np
+  labels:
+    app: postgres
+spec:
+  type: NodePort
+  ports:
+    - port: 5432
+      targetPort: 5432
+      nodePort: 30007
+  selector:
+    app: postgres

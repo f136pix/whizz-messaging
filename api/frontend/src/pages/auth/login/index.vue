@@ -1,8 +1,8 @@
 <template>
   <FullScreenWrapper class="bg-black text-white">
     <AuthHeader/>
-    <h1 class="text-center mt-6pct"> Login </h1>
-    <v-container class="bg-grey-lighten-2 rounded elevation-15 mt-12 w-50">
+    <v-container class="bg-grey-lighten-2 rounded elevation-15 mt-10pct w-50">
+    <h1 class="text-center mb-16"> Login </h1>
       <Form @submit="handleLogin" :validation-schema="schema">
         <v-row>
           <v-col cols="12">
@@ -111,7 +111,7 @@ export default {
 </script>
 
 <style scoped>
-.mt-6pct {
-  margin-top: 6%;
+.mt-10pct {
+  margin-top: 8%;
 }
 </style>

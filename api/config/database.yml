@@ -8,7 +8,7 @@ default: &default
   adapter: postgresql
   database: whizz
   username: root
-  password: Filipeco123! 
+  password: Filipeco123!
   host: localhost
 
 development:
@@ -28,5 +28,8 @@ test:
   database: whizz_tests
 
 production:
-  <<: *default
-  database: db/production.sqlite3
+  adapter: postgresql
+  database: whizz-prod
+  username: root
+  password: Filipeco123!
+  host: localhost
