@@ -1,14 +1,15 @@
-import {checkStatus} from "../utils";
+import {API_URL, checkStatus} from "../utils";
+
 import axios from "axios";
 
-const API_URL = 'http://localhost:3000/messages';
+const MESSAGES_API_URL = `${API_URL}/messages`;
 
 class MessageService {
   private checkStatus = checkStatus;
 
   async getAllMessages(nextHour = false) {
     try {
-      const response = await axios.get(API_URL, {
+      const response = await axios.get(MESSAGES_API_URL, {
         params: {
           nextHour: nextHour
         }
@@ -22,7 +23,7 @@ class MessageService {
 
   async getUser(id) {
     try {
-      const response = await axios.get(`${API_URL}/${id}`);
+      const response = await axios.get(`${MESSAGES_API_URL}/${id}`);
       console.log(response);
       this.checkStatus(response, "Mensagem não encontrada");
       return response.data;
@@ -33,11 +34,11 @@ class MessageService {
 
   async createMessage(message) {
     try {
-      const response = await axios.post(API_URL, message);
+      const response = await axios.post(MESSAGES_API_URL, message);
       this.checkStatus(response, "Falha ao criar mensagem");
       return response.data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error.response.data.errors) {
         throw new Error(`${error.response.data.errors[0]}`);
       }
@@ -47,7 +48,7 @@ class MessageService {
 
   async updateUser(id, user) {
     try {
-      const response = await axios.put(`${API_URL}/${id}`, user);
+      const response = await axios.put(`${MESSAGES_API_URL}/${id}`, user);
       this.checkStatus(response, "Falha ao atualizar user");
       return response.data;
     } catch (error) {
@@ -60,7 +61,7 @@ class MessageService {
 
   async deleteMessage(id) {
     try {
-      const response = await axios.delete(`${API_URL}/${id}`);
+      const response = await axios.delete(`${MESSAGES_API_URL}/${id}`);
       this.checkStatus(response, "Falha ao deletar user");
     } catch (error) {
       throw new Error(`Failed to delete user: ${error.message}`);

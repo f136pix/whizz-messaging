@@ -1,3 +1,7 @@
+//export const API_URL = 'http://localhost:3000/';
+//export const API_URL = 'http://server-clusterip-srv:3000/';
+export const API_URL = 'http://localhost:30003/';
+
 export const resFormatter = (data: any) => {
   const res = {
     status: data.response.status,

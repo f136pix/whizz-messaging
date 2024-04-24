@@ -1,7 +1,7 @@
 // @ts-ignore
 import {IApiRes, IUserLoginDto, IUserRegisterDto} from "../types";
 // @ts-ignore
-import {resFormatter} from "../utils";
+import {API_URL, resFormatter} from "../utils";
 
 // @ts-ignore
 import authHeader from "./auth-header";
@@ -9,12 +9,11 @@ import authHeader from "./auth-header";
 // @ts-ignore
 import axios from "axios";
 
-const API_URL = 'http://localhost:3000/';
 
 class AuthService {
   login(data: IUserLoginDto): Promise<IApiRes> {
     return axios
-      .post(API_URL + 'login',
+      .post(API_URL  + 'login',
         {
           "user": {
             "email": data.email,
