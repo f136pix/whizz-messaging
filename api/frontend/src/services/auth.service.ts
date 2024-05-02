@@ -13,7 +13,7 @@ import axios from "axios";
 class AuthService {
   login(data: IUserLoginDto): Promise<IApiRes> {
     return axios
-      .post(API_URL  + 'login',
+      .post(API_URL + 'login',
         {
           "user": {
             "email": data.email,
@@ -98,11 +98,11 @@ class AuthService {
   }
 
   update() {
-    console.log(localStorage.getItem('jwt'))
+    //console.log(`--> Authorization: \`Bearer ${JSON.parse(localStorage.getItem('jwt'))}`);
     return axios
       .get(API_URL + 'current_user', {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt'))}`
         }
       })
       .catch(err => {
@@ -115,10 +115,9 @@ class AuthService {
         console.log(response);
         if (response.status === 200) {
           const user = response.data;
-          localStorage.setItem('user', JSON.stringify(user)); // saving user in localstorage
           return {
             status: response.status,
-            data: response.data
+            data: user
           };
         }
         throw new Error("Não foi possivel realizar login, verifique suas credenciais");

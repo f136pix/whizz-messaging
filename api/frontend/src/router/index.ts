@@ -18,15 +18,21 @@ function requireAuth(to, from, next) {
     return;
   }
 
+
+
   const isLoggedIn = store.state.auth.status.loggedIn;
   if (!isLoggedIn) {
     next({
       path: '/auth/login?redirect=true',
     });
-  } else {
-    store.dispatch("messages/retrieve"); // atualiza mensagens no store
-    next();
   }
+  // nao verifica action para /home
+  if (to.path !== '/home') {
+    store.dispatch("auth/update");
+  }
+  store.dispatch("messages/retrieve"); // atualiza mensagens no store
+  next();
+
 }
 
 const router = createRouter({

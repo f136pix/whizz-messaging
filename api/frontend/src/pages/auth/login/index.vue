@@ -38,7 +38,7 @@
         </v-row>
       </Form>
     </v-container>
-    <v-row v-if="message" class="w-screen mt-7">
+    <v-row v-if="message" class="w-screen mt-7 bg-black">
       <v-col cols="12">
         <v-alert type="error" class="w-50 mx-auto">
           {{ message }}

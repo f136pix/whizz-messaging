@@ -43,7 +43,7 @@ export const auth = {
       return AuthService.update().then(
         (data) => {
           console.log(data);
-          commit('loginSuccess');
+          commit('checkSuccess', data);
           return Promise.resolve(data);
         },
         error => {
@@ -72,7 +72,8 @@ export const auth = {
     registerFailure(state) {
       state.status.loggedIn = false;
     },
-    checkSuccess(state) {
+    checkSuccess(state,data) {
+      state.user = data.data;
       state.status.loggedIn = true;
     },
     checkFailure(state) {

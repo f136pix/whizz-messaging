@@ -21,6 +21,8 @@ export DATABASE_PORT=5432
 rake db:create
 rake db:migrate
 
+bundle exec rails runner script/create_root_user.rb
+
 bundle exec rails s -b 0.0.0.0
 
 

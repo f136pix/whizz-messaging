@@ -8,7 +8,7 @@ export default {
       if (msgs.length === 0) return;
       // ve se é apos agora
       const scheduleTime = new Date(msgs[0].scheduleDate);
-      scheduleTime.setHours(scheduleTime.getHours() + 3);
+      scheduleTime.setHours(scheduleTime.getHours() + 3); // ajusta o fuso
       const now = new Date();
       // se hora ainda não chegou, retorna
       if(scheduleTime > now) return;
